@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "337640593729",
+    "project_id": "limapp-c537f",
+    "storage_bucket": "limapp-c537f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:337640593729:android:aedd72084cf14fe30ee9c0",
+        "android_client_info": {
+          "package_name": "com.example.praktika1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8vt5QZBjgUd4nTHhD-hcTQO12mN7jo9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
