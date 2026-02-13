@@ -30,24 +30,24 @@ public class LoginActivity extends AppCompatActivity {
         TextView tvSwitch = findViewById(R.id.tvSwitchMode);
         TextView tvTitle = findViewById(R.id.tvTitle);
 
-        // Скрываем надпись для админа
+
         if ("admin".equals(role)) {
             tvTitle.setText("Вход для администратора");
             tvSwitch.setVisibility(View.GONE);
         }
 
-        // Переключение режима (вход/регистрация)
+
         tvSwitch.setOnClickListener(v -> {
             isLoginMode = !isLoginMode;
 
             if (isLoginMode) {
                 tvTitle.setText("Авторизация");
                 btnSubmit.setText("Войти");
-                tvSwitch.setVisibility(View.VISIBLE); // Показываем кнопку в режиме входа
+                tvSwitch.setVisibility(View.VISIBLE);
             } else {
                 tvTitle.setText("Регистрация");
                 btnSubmit.setText("Создать аккаунт");
-                tvSwitch.setVisibility(View.GONE); // Скрываем в режиме регистрации
+                tvSwitch.setVisibility(View.GONE);
             }
         });
 
@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             String login = etLogin.getText().toString().trim();
             String pass = etPassword.getText().toString().trim();
 
-            // ✅ Общие проверки
+
             if (login.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(this, "Логин и пароль не могут быть пустыми", Toast.LENGTH_SHORT).show();
                 return;
@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             if ("admin".equals(role)) {
-                // Вход для админа
+
                 if (login.equals("admin") && pass.equals("admin123")) {
                     startActivity(new Intent(this, AdminMainActivity.class));
                 } else {
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } else {
                 if (isLoginMode) {
-                    // Вход клиента
+
                     usersDb.child(login).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot s) {
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onCancelled(DatabaseError error) {}
                     });
                 } else {
-                    // Регистрация клиента
+
                     usersDb.child(login).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot s) {

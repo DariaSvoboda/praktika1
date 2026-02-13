@@ -1,10 +1,10 @@
 package com.example.praktika1;
 
 public class Section {
-    public String id, name, coach, schedule; // Переименовано для соответствия ТЗ
+    public String id, name, coach, schedule;
     public int maxSpots, currentSpots;
 
-    public Section() {} // Обязательно для Firebase
+    public Section() {}
 
     public Section(String id, String name, String coach, String schedule, int maxSpots) {
         this.id = id;

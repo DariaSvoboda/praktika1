@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Заголовок -->
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingBottom="16dp"/>
 
-        <!-- Всего записей -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
-        <!-- Посетили -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
-        <!-- Пропустили -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                 android:layout_marginTop="4dp"/>
         </LinearLayout>
 
-        <!-- Записаны -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

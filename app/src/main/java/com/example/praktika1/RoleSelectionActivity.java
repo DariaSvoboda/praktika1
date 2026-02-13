@@ -16,7 +16,7 @@ public class RoleSelectionActivity extends AppCompatActivity {
 
     private void startLogin(String role) {
         Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra("ROLE", role); // Передаем роль в следующее окно
+        intent.putExtra("ROLE", role);
         startActivity(intent);
     }
 }

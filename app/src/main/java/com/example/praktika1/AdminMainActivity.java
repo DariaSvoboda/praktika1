@@ -55,7 +55,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
 
             public void onDelete(Section section) {
-                // Удаление через диалог (в нашем случае можно не использовать, так как удаление через редактирование)
+
             }
         });
 

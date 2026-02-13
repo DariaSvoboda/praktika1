@@ -89,7 +89,7 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHold
                         });
             });
         } else {
-            // ✅ Админ кликает по карточке – открывается редактирование
+
             h.btn.setText("Редактировать");
             h.btn.setOnClickListener(v -> {
                 if (adminListener != null) {

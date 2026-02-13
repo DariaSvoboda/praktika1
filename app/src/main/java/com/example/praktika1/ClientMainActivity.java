@@ -19,7 +19,7 @@ public class ClientMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Кнопка истории (согласно ТЗ: "просмотр истории своих посещений")
+
         Button btnHistory = findViewById(R.id.btnHistory);
         btnHistory.setOnClickListener(v -> {
             startActivity(new Intent(this, HistoryActivity.class));
@@ -28,7 +28,7 @@ public class ClientMainActivity extends AppCompatActivity {
         RecyclerView rv = findViewById(R.id.recyclerView);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        // ИСПРАВЛЕНИЕ: Передаем 3 аргумента (список, isAdmin=false, listener=null)
+
         adapter = new SectionAdapter(list, false, null);
         rv.setAdapter(adapter);
 
