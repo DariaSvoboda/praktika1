@@ -13,7 +13,7 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHold
         void onEdit(Section section);
     }
 
-    List<Section> sections;
+    List<Section> sections; // 🔴 1.1 NullPointerException — нет проверки на null при использовании
     boolean isAdmin;
     OnAdminClickListener adminListener;
 
@@ -34,6 +34,7 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder h, int pos) {
         Section s = sections.get(pos);
 
+        // 🔴 1.1 NullPointerException — s может быть null
         h.name.setText(s.name);
         h.coach.setText("Тренер: " + s.coach);
         h.scheduleText.setText("Расписание: " + s.schedule);
@@ -45,8 +46,9 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHold
         if (!isAdmin) {
             h.btn.setText("Записаться");
             h.btn.setOnClickListener(v -> {
+                // 🔴 6.2 Concurrency Error — возможна двойная запись при быстром нажатии
                 bookingsRef.orderByChild("userLogin")
-                        .equalTo(LoginActivity.CURRENT_LOGIN)
+                        .equalTo(LoginActivity.CURRENT_LOGIN) // 🔴 7.3 Session Error — статическая переменная
                         .addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot snap) {
@@ -68,6 +70,9 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHold
                                             String name = etName.getText().toString();
                                             String age = etAge.getText().toString();
 
+                                            // 🔴 3.1 Validation Error — нет проверки на пустые name/age
+                                            // 🔴 3.2 Validation Error — нет проверки возраста (отрицательный, слишком большой)
+
                                             String id = bookingsRef.push().getKey();
                                             HashMap<String, Object> map = new HashMap<>();
                                             map.put("id", id);
@@ -85,11 +90,12 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHold
                                         }).show();
                             }
 
-                            @Override public void onCancelled(DatabaseError error) {}
+                            @Override public void onCancelled(DatabaseError error) {
+                                // 🔴 4.2 Firebase Error — ошибка не обрабатывается
+                            }
                         });
             });
         } else {
-
             h.btn.setText("Редактировать");
             h.btn.setOnClickListener(v -> {
                 if (adminListener != null) {
@@ -101,7 +107,7 @@ public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return sections.size();
+        return sections.size(); // 🔴 1.1 NullPointerException — если sections == null
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

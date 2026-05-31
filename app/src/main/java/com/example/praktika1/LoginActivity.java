@@ -10,9 +10,9 @@ import com.google.firebase.database.*;
 public class LoginActivity extends AppCompatActivity {
 
     boolean isLoginMode = true;
-    DatabaseReference usersDb = FirebaseDatabase.getInstance().getReference("users");
+    DatabaseReference usersDb = FirebaseDatabase.getInstance().getReference("users"); // 🔴 4.1 Firebase Error — нет проверки инициализации Firebase
 
-    public static String CURRENT_LOGIN = "";
+    public static String CURRENT_LOGIN = ""; // 🔴 7.3 Session Error — статическая переменная для сессии (проблемы с памятью)
 
     private static final int MIN_LENGTH = 4;
     private static final int MAX_LENGTH = 20;
@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final String role = getIntent().getStringExtra("ROLE");
+        final String role = getIntent().getStringExtra("ROLE"); // 🔴 1.1 NullPointerException — role может быть null
 
         EditText etLogin = findViewById(R.id.etLogin);
         EditText etPassword = findViewById(R.id.etPassword);
@@ -30,12 +30,10 @@ public class LoginActivity extends AppCompatActivity {
         TextView tvSwitch = findViewById(R.id.tvSwitchMode);
         TextView tvTitle = findViewById(R.id.tvTitle);
 
-
         if ("admin".equals(role)) {
             tvTitle.setText("Вход для администратора");
             tvSwitch.setVisibility(View.GONE);
         }
-
 
         tvSwitch.setOnClickListener(v -> {
             isLoginMode = !isLoginMode;
@@ -47,14 +45,13 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 tvTitle.setText("Регистрация");
                 btnSubmit.setText("Создать аккаунт");
-                tvSwitch.setVisibility(View.GONE);
+                tvSwitch.setVisibility(View.GONE); // 🔴 5.2 Logic Error — после регистрации нет возможности вернуться ко входу
             }
         });
 
         btnSubmit.setOnClickListener(v -> {
             String login = etLogin.getText().toString().trim();
             String pass = etPassword.getText().toString().trim();
-
 
             if (login.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(this, "Логин и пароль не могут быть пустыми", Toast.LENGTH_SHORT).show();
@@ -70,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             if ("admin".equals(role)) {
-
+                // 🔴 5.1 Logic Error — пароль admin123 захардкожен в коде
                 if (login.equals("admin") && pass.equals("admin123")) {
                     startActivity(new Intent(this, AdminMainActivity.class));
                 } else {
@@ -78,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } else {
                 if (isLoginMode) {
-
+                    // 🔴 6.1 Async Error — нет обработки задержки при загрузке
                     usersDb.child(login).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot s) {
@@ -91,10 +88,11 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError error) {}
+                        public void onCancelled(DatabaseError error) {
+                            // 🔴 4.2 Firebase Error — ошибка не обрабатывается, нет уведомления пользователя
+                        }
                     });
                 } else {
-
                     usersDb.child(login).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot s) {
@@ -103,11 +101,14 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 usersDb.child(login).child("password").setValue(pass);
                                 Toast.makeText(LoginActivity.this, "Аккаунт создан", Toast.LENGTH_SHORT).show();
+                                // 🔴 5.2 Logic Error — после регистрации не происходит автоматический вход, остаётся на экране регистрации
                             }
                         }
 
                         @Override
-                        public void onCancelled(DatabaseError error) {}
+                        public void onCancelled(DatabaseError error) {
+                            // 🔴 4.2 Firebase Error — ошибка не обрабатывается
+                        }
                     });
                 }
             }
